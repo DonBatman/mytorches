@@ -1,4 +1,4 @@
-local torch_timer = 10
+local torch_timer = 3600
 
 minetest.override_item("default:torch", {
 	description = "Torch",
@@ -21,6 +21,7 @@ minetest.override_item("default:torch", {
 	paramtype = "light",
 	paramtype2 = "facedir",
 	walkable = false,
+	damage_per_second = 1,
 	drop = "default:torch",
 	light_source = 14,
 	groups = {dig_immediate=3},
@@ -86,6 +87,7 @@ minetest.register_node("mytorches:torch_wall", {
 	paramtype2 = "facedir",
 	walkable = false,
 	drop = "default:torch",
+	damage_per_second = 1,
 	light_source = 14,
 	groups = {dig_immediate=3},
 	node_box = {
@@ -134,6 +136,7 @@ minetest.register_node("mytorches:torch_ceiling", {
 	paramtype2 = "facedir",
 	drop = "default:torch",
 	walkable = false,
+	damage_per_second = 1,
 	light_source = 14,
 	groups = {dig_immediate=3},
 	node_box = {
@@ -174,6 +177,7 @@ minetest.register_node("mytorches:torch_med", {
 	paramtype = "light",
 	paramtype2 = "facedir",
 	walkable = false,
+	damage_per_second = 1,
 	drop = "default:torch",
 	light_source = 11,
 	groups = {dig_immediate=3},
@@ -210,6 +214,7 @@ minetest.register_node("mytorches:torch_med_wall", {
 	paramtype = "light",
 	paramtype2 = "facedir",
 	walkable = false,
+	damage_per_second = 1,
 	drop = "default:torch",
 	light_source = 11,
 	groups = {dig_immediate=3},
@@ -254,6 +259,7 @@ minetest.register_node("mytorches:torch_med_ceiling", {
 	paramtype2 = "facedir",
 	drop = "default:torch",
 	walkable = false,
+	damage_per_second = 1,
 	light_source = 11,
 	groups = {dig_immediate=3},
 	node_box = {
@@ -292,6 +298,7 @@ minetest.register_node("mytorches:torch_dim", {
 	paramtype = "light",
 	paramtype2 = "facedir",
 	walkable = false,
+	damage_per_second = 1,
 	drop = "default:stick",
 	light_source = 8,
 	groups = {dig_immediate=3, not_in_creative_inventory=1},
@@ -328,6 +335,7 @@ minetest.register_node("mytorches:torch_dim_wall", {
 	paramtype = "light",
 	paramtype2 = "facedir",
 	walkable = false,
+	damage_per_second = 1,
 	drop = "default:stick",
 	light_source = 8,
 	groups = {dig_immediate=3, not_in_creative_inventory=1},
@@ -368,6 +376,7 @@ minetest.register_node("mytorches:torch_dim_ceiling", {
 	paramtype2 = "facedir",
 	drop = "default:stick",
 	walkable = false,
+	damage_per_second = 1,
 	light_source = 8,
 	groups = {dig_immediate=3, not_in_creative_inventory=1},
 	node_box = {
@@ -456,7 +465,31 @@ minetest.register_node("mytorches:torch_out_ceiling", {
 })
 
 
-
+minetest.register_abm({
+	nodenames = {"default:torch","mytorches:torch_med","mytorches:torch_dim","mytorches:torch_out"},
+	interval = 0.1,
+	chance = 1,
+	action = function(pos, node, active_object_count, active_object_count_wider)
+			local p = {x = pos.x,y=pos.y-1,z=pos.z}
+			local n = minetest.get_node(p).name
+			local nd = node.name
+			if n == "air" then
+				if nd == "default:torch" then
+					minetest.spawn_item(pos, "default:torch")
+					minetest.remove_node(pos)
+				elseif nd == "mytorches:torch_med" then
+					minetest.spawn_item(pos, "default:stick")
+					minetest.remove_node(pos)
+				elseif nd == "mytorches:torch_dim" then
+					minetest.spawn_item(pos, "default:stick")
+					minetest.remove_node(pos)
+				elseif nd == "mytorches:torch_out" then
+					minetest.remove_node(pos)
+				end
+			
+			end
+		end
+})
 
 
 
