@@ -35,6 +35,16 @@ minetest.override_item("default:torch", {
 			{-0.0625, 0.125, -0.095, 0.0625, 0.3125, 0.095},
 		}
 	},
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-0.0625, -0.5, -0.03, 0.0625, 0.4375, 0.03},
+			{-0.03, -0.5, -0.0625, 0.03, 0.4375, 0.0625},
+			{-0.03, 0.3125, -0.03, 0.03, 0.5, 0.03},
+			{-0.095, 0.125, -0.0625, 0.095, 0.375, 0.0625},
+			{-0.0625, 0.125, -0.095, 0.0625, 0.3125, 0.095},
+		}
+	},
 on_place = function(itemstack, placer, pointed_thing)
 	local timer = minetest.get_node_timer(pointed_thing.above)
 		timer:start(torch_timer)
