@@ -2,4 +2,5 @@
 
 Torches for Minetest that burn out.
 
-Licence - DWYWPL
+Code Licence - MIT
+Media Licence - CC0
